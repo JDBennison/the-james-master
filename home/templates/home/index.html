@@ -1,6 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
-    <h1 class="display-4 text-success">It Works!</h1>
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-10 offset-1 my-auto">
+                <h2 class="display-4 fantasy-font text-white">Professional Dungeon Master Services</h2>
+                <h1 class="display-4 header-font text-white">WHO DO YOU WANT TO BE?</h1>
+                <p class="text white">Hire a professional DM for your friends in a safe environment</p>
+                <div class="my-5">
+                    <h4>
+                        <a href="" class="how-it-works-button btn btn-lg rounded-0 text-uppercase py-3">How It Works</a>
+                        <a href="" class="book-now-button btn btn-lg rounded-0 text-uppercase py-3 mr-5">Book Your Game</a>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
