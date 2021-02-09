@@ -72,6 +72,32 @@ body {
     border: 1px solid black !important;
 }
 
+
+.intro {
+    background-color: white;
+}
+
+.intro-icon {
+    font-size: 3.5rem;
+}
+
+.intro-title {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.bio {
+    background-color: #363636;
+}
+
+.bio-title {
+    font-size: 3rem;
+}
+
+.services {
+    background-color: white;
+}
+
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */
