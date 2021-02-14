@@ -42,8 +42,7 @@
                         <h2 class="logo-font text-black my-0">The James  <strong>Master</strong></h2>
                     </a>
                 </div>
-                <div class="col-12 col-lg-4 my-auto py-1 py-lg-0"></div>
-                <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
+                <div class="col-12 col-lg-4 offset-lg-4 my-auto py-1 py-lg-0">
                     <ul class="list-inline list-unstyled text-center text-lg-right my-0">
                         <li class="list-inline-item dropdown">
                             <a href="#" class="text-black nav-link" id="user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -101,6 +100,41 @@
 
         {% block content %}
         {% endblock %}
+
+        <footer>
+            <div class="container-fluid bg-secondary py-3">
+                <div class="row">
+                    <div class="col-12 col-lg-4 my-auto text-center text-lg-left">
+                        <a href="#" class="nav-link">
+                            <p class="text-white my-0 header-font">Contact Us</p>
+                        </a>
+                    </div>
+                    <div class="col-12 col-lg-4 offset-lg-4 py-3">
+                        <form method="GET" action="">
+                            <label class="text-white header-font">Subscribe to our newsletter:</label>
+                            <div class="input-group w-100">
+                                <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Email Address">
+                                <div class="input-group-append my-auto">
+                                    <button class="form-control btn btn-black border border-black rounded-0 text-white header-font" type="submit">
+                                        Subscribe <i class="fas fa-bell"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="small">
+                            ©2021 thejamesmaster.com – All Rights Reserved.
+                        </p>
+                        <p class="small">
+                            Wizards of the Coast, Dungeons & Dragons, and their logos are trademarks of Wizards of the Coast LLC in the United States and other countries. © 2019 Wizards. All Rights Reserved.  This web site is not affiliated with, endorsed, sponsored, or specifically approved by Wizards of the Coast LLC. This web site may use the trademarks and other intellectual property of Wizards of the Coast LLC, which is permitted under Wizards’ Fan Site Policy. For example, Dungeons & Dragons® is a trademark[s] of Wizards of the Coast. For more information about Wizards of the Coast or any of Wizards’ trademarks or other intellectual property, please visit their website at (www.wizards.com).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
         {% block postloadjs %}
         {% endblock %}

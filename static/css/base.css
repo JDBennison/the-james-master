@@ -102,6 +102,11 @@ body {
         padding-top: 80px;
     }
 
+.small {
+    font-size: 8px;
+    color: white;
+}
+
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */
