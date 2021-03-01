@@ -1,13 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import BlogPost
 
 # Create your views here.
 
 
-class PostList(generic.ListView):
-    queryset = BlogPost.objects.filter(status=1).order_by('-created_on')
-    template_name = 'blog.html'
+def all_blog_posts(request):
+    """A view to show all blog posts"""
 
-class PostDetail(generic.DetailView):
-    model = BlogPost
-    template_name = 'post_detail.html'
+    blog_posts = BlogPost.objects.all()
+
+    context = {
+        "blog_posts": blog_posts
+    }
+
+    return render(request, 'blog/blog.html', context)
+
+
+def post_detail(request, blog_id):
+    """ A view to show specific blog posts """
+
+    blog_post = get_object_or_404(BlogPost, pk=blog_id)
+
+    context = {
+        "blog_post": blog_post,
+    }
+
+    return render(request, 'blog/post_detail.html', context)
