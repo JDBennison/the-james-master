@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from tinymce import models as tinymce_models
 
 
 STATUS = (
@@ -13,7 +14,7 @@ class BlogPost(models.Model):
     subtitle = models.CharField(max_length=180, blank=False, null=False)
     slug = models.SlugField(max_length=200, unique=True, null=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts', null=False)
-    body = models.TextField()
+    body = tinymce_models.HTMLField()
     created_on = models.DateTimeField(auto_now_add=True, null=False)
     updated_on = models.DateTimeField(auto_now=True, null=False)
     status = models.IntegerField(choices=STATUS, default=0)
