@@ -28,6 +28,7 @@
         <div class="row">
             <!-- Blog Entries Column -->
             <div class="col-md-8 mt-3 left">
+                <h4 class="header-font text-center">{{ blog_post.subtitle }}</h4>
                 {{ blog_post.body|safe }}
             </div>
             {% include './includes/blog-sidebar.html' %}
