@@ -11,9 +11,15 @@
 
 {% block content %}
     <div class="overlay"></div>
+    <div class="container-fluid title-bar">
+        <div class="row py-5">
+            <div class="col-12">
+                <h1 class="header-font text-white text-center">The James Master Blog</h1>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="row">
-            <!-- Blog Entries Column -->
             <div class="col-md-8 mt-3 left">
                 {% for post in blog_posts %}
                 <div class="card mb-4">
@@ -26,7 +32,7 @@
                 </div>
                 {% endfor %}
             </div>
-            
+            {% include './includes/blog-sidebar.html' %}
         </div>
     </div>
 

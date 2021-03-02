@@ -1,12 +1,28 @@
-<div class="card mb-3"">
-    <div class="row g-0">
-        <div class="col-md-4 float-right">
-            <div class="card-title">
-                <a href="">Card Title</a> 
+<div class="col-md-4 float-right my-3">
+    <form method="GET" action="">
+        <div class="input-group w-100">
+            <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Search">
+            <div class="input-group-append">
+                <button class="form-control btn btn-black border border-black rounded-0" type="submit">
+                    <span class="icon">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </button>
             </div>
+        </div>
+    </form>
+    <div class="card my-3">
+        <div class="row g-0">
             <div class="card-body">
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <h5 class="card-title recent-posts header-font">Recent Posts</h5>
+                <ul class="list-group list-group-flush">
+                    {% for post in blog_posts %}
+                        <li class="list-group-item">
+                            <a href="{% url 'post_detail' post.id  %}" class="card-title">{{ post.title }}</a>
+                            <p class="card-text text-muted h6">{{ post.created_on}} </p>
+                        </li>
+                    {% endfor %}    
+                </ul>
             </div>
         </div>
     </div>

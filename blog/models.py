@@ -18,6 +18,8 @@ class BlogPost(models.Model):
     created_on = models.DateTimeField(auto_now_add=True, null=False)
     updated_on = models.DateTimeField(auto_now=True, null=False)
     status = models.IntegerField(choices=STATUS, default=0)
+    image_url = models.URLField(max_length=1024, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
 
     class Meta:
         ordering = ['-created_on']

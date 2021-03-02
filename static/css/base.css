@@ -135,6 +135,25 @@ body {
     font-weight: 100;
 }
 
+.title-bar {
+    background-color: #363636;
+}
+
+.recent-posts {
+    display: grid;
+    grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
+    align-items: center;
+    text-align: center;
+    grid-gap: 20px;
+    width: 100%;
+}
+
+.recent-posts:before,
+.recent-posts:after {
+    content: '';
+    border-top: 2px solid;
+}
+
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */
