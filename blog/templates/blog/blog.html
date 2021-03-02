@@ -23,11 +23,18 @@
             <div class="col-md-8 mt-3 left">
                 {% for post in blog_posts %}
                 <div class="card mb-4">
-                    <div class="card-body">
-                        <h2 class="card-title">{{ post.title }}</h2>
-                        <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
-                        <p class="card-text">{{post.body|slice:":200"|safe }}</p>
-                        <p><a href="{% url 'post_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a></p>
+                    <div class="row g-0">
+                        <div class="col-4 thumbnail">
+                            <img src="{{ post.image_url }}" alt="{{ post.image }}">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h2 class="card-title">{{ post.title }}</h2>
+                                <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
+                                <p class="card-text">{{post.body|slice:":200"|safe }}</p>
+                                <p><a href="{% url 'post_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}

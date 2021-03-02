@@ -7,7 +7,7 @@ from .models import BlogPost
 def all_blog_posts(request):
     """A view to show all blog posts"""
 
-    blog_posts = BlogPost.objects.all()
+    blog_posts = BlogPost.objects.filter(status=1).order_by('-created_on')
 
     context = {
         "blog_posts": blog_posts
@@ -20,9 +20,11 @@ def post_detail(request, blog_id):
     """ A view to show specific blog posts """
 
     blog_post = get_object_or_404(BlogPost, pk=blog_id)
+    blog_posts = BlogPost.objects.filter(status=1).order_by('-created_on')
 
     context = {
         "blog_post": blog_post,
+        "blog_posts": blog_posts
     }
 
     return render(request, 'blog/post_detail.html', context)

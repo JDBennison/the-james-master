@@ -18,8 +18,15 @@
                 <ul class="list-group list-group-flush">
                     {% for post in blog_posts %}
                         <li class="list-group-item">
-                            <a href="{% url 'post_detail' post.id  %}" class="card-title">{{ post.title }}</a>
-                            <p class="card-text text-muted h6">{{ post.created_on}} </p>
+                            <div class="row">
+                                <div class="col-4 thumbnail">
+                                    <img src="{{ post.image_url }}" alt="{{ post.image }}">
+                                </div>
+                                <div class="col-8">
+                                    <a href="{% url 'post_detail' post.id  %}" class="card-title">{{ post.title }}</a>
+                                    <p class="card-text text-muted h6">{{ post.created_on}} </p>
+                                </div>
+                            </div>                            
                         </li>
                     {% endfor %}    
                 </ul>
