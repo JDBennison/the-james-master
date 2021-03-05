@@ -29,10 +29,10 @@
                         </div>
                         <div class="col-8">
                             <div class="card-body">
-                                <h2 class="card-title">{{ post.title }}</h2>
+                                <h2 class="card-title header-font">{{ post.title }}</h2>
                                 <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
-                                <p class="card-text">{{post.body|slice:":200"|safe }}</p>
-                                <p><a href="{% url 'post_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a></p>
+                                <p class="card-text">{{post.body|slice:":200"|safe }}...</p>
+                                <p><a href="{% url 'post_detail' post.id  %}" class="btn btn-black border border-black rounded-0">Read More &rarr;</a></p>
                             </div>
                         </div>
                     </div>
