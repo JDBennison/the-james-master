@@ -98,6 +98,13 @@ body {
     background-color: white;
 }
 
+.anchor { 
+        display: block;
+        position: relative;
+        top: -80px;
+        visibility: hidden;
+    }
+
 .header-container {
         padding-top: 80px;
     }
@@ -194,6 +201,13 @@ body {
     }
 
     .header-container {
-        padding-top: 144px;
+        padding-top: 120px;
+    }
+
+    .anchor { 
+        display: block;
+        position: relative;
+        top: -120px;
+        visibility: hidden;
     }
 }
