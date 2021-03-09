@@ -1,5 +1,6 @@
 {% extends "base.html" %} 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block page_header %}
     <div class="container header-container">
@@ -30,6 +31,40 @@
             <div class="col-md-8 mt-3 left">
                 <h4 class="header-font text-center">{{ blog_post.subtitle }}</h4>
                 {{ blog_post.body|safe }}
+                <div class="row">
+                    <div class="col-12 mb-4 card">
+                        <div class="card-body">
+                            <h4 class="header-font text-center">{{ comments.count }} comments</h4>
+                            {% for comment in comments %}
+                                <div class="comments p-3">
+                                    <p class="fw-bold">
+                                        {{ comment.name }}
+                                        <span class=" text-muted fw-normal">
+                                            - {{ comment.created_on }}
+                                        </span>
+                                    </p>
+                                    {{ comment.body | linebreaks }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 my-4 card">
+                    <div class="card-body">
+                        {% if new_comment %}
+                            <div class="alert alert-success header-font" role="alert">
+                                Your comment is awaiting moderation
+                            </div>
+                        {% else %}
+                            <h4 class="header-font">Leave a comment</h4>
+                            <form method="POST" class="mt-4">
+                                {{ comment_form | crispy }}
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-black border border-black rounded-0 header-font">Submit</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             {% include './includes/blog-sidebar.html' %}
         </div>

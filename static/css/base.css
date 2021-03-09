@@ -181,6 +181,10 @@ body {
   height: auto;
 }
 
+.form-group {
+    margin-bottom: 10px;
+}
+
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */
