@@ -12,13 +12,16 @@ def index(request):
     blog_posts = BlogPost.objects.filter(status=1).order_by('-created_on')[:3]
 
     if request.method == 'POST':
-        subscription = SubscriptionForm(request.POST)
-        if subscription.is_valid:
-            subscription.save()
+        subscription_form = SubscriptionForm(request.POST)
+        if subscription_form.is_valid:
+            subscription_form.save()
             messages.success(request, "You have subscribed to our newsletter!")
+    else:
+        subscription_form = SubscriptionForm()
 
     context = {
-        "blog_posts": blog_posts
+        'blog_posts': blog_posts,
+        'form': subscription_form,
     }
 
     return render(request, 'home/index.html', context)

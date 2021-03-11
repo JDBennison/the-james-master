@@ -92,7 +92,11 @@
             </div>
         </header>
         {% if messages %}
-            <div class="message-container"></div>
+            <div class="message-container">
+                {% for message in messages %}
+                    {% include 'includes/toasts/toast_success.html' %}
+                {% endfor %}
+            </div>
         {% endif %}
 
         {% block page_header %}
@@ -111,12 +115,16 @@
                     </div>
                     <div class="col-12 col-lg-4 offset-lg-4 py-3">
                         <form method="POST" action="{% url 'home' %}">
-                            <h4 class="text-white header-font">Subscribe to our newsletter:</h4>
-                            {{ comment_form | crispy }}
+                            <h6 class="text-white header-font">Subscribe to our newsletter:</h6>
                             {% csrf_token %}
-                            <button class="form-control btn btn-black border border-black rounded-0 text-white header-font" type="submit">
-                                Subscribe <i class="fas fa-bell"></i>
-                            </button>
+                            <div class="input-group w-100">
+                                {{ form.subscribe_email }}
+                                <div class="input-group-append my-auto">
+                                    <button class="form-control btn btn-black border border-black rounded-0 text-white header-font" type="submit">
+                                        Subscribe <i class="fas fa-bell"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -134,6 +142,9 @@
         </footer>
 
         {% block postloadjs %}
+            <script type="text/javascript">
+                $('.toast').toast('show');
+            </script>
         {% endblock %}
     </body>
 </html>
