@@ -20,7 +20,7 @@ def all_blog_posts(request):
             if not query:
                 messages.error(request, "You didn't enter any search criteria!")
                 return redirect(reverse('blog'))
-            
+
             queries = Q(title__icontains=query) | Q(body__icontains=query)
             blog_posts = blog_posts.filter(queries)
 

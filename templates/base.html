@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 
 <!doctype html>
 <html lang="en">
@@ -109,16 +110,13 @@
                         </a>
                     </div>
                     <div class="col-12 col-lg-4 offset-lg-4 py-3">
-                        <form method="GET" action="">
-                            <label class="text-white header-font">Subscribe to our newsletter:</label>
-                            <div class="input-group w-100">
-                                <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Email Address">
-                                <div class="input-group-append my-auto">
-                                    <button class="form-control btn btn-black border border-black rounded-0 text-white header-font" type="submit">
-                                        Subscribe <i class="fas fa-bell"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <form method="POST" action="{% url 'home' %}">
+                            <h4 class="text-white header-font">Subscribe to our newsletter:</h4>
+                            {{ comment_form | crispy }}
+                            {% csrf_token %}
+                            <button class="form-control btn btn-black border border-black rounded-0 text-white header-font" type="submit">
+                                Subscribe <i class="fas fa-bell"></i>
+                            </button>
                         </form>
                     </div>
                 </div>
