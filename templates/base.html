@@ -1,5 +1,4 @@
 {% load static %}
-{% load crispy_forms_tags %}
 
 <!doctype html>
 <html lang="en">
@@ -118,7 +117,7 @@
                             <h6 class="text-white header-font">Subscribe to our newsletter:</h6>
                             {% csrf_token %}
                             <div class="input-group w-100">
-                                {{ form.subscribe_email }}
+                                {{ subscription_form.subscribe_email }}
                                 <div class="input-group-append my-auto">
                                     <button class="form-control btn btn-black border border-black rounded-0 text-white header-font" type="submit">
                                         Subscribe <i class="fas fa-bell"></i>
