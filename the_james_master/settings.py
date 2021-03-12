@@ -162,3 +162,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+INTRO_COST = 20
+ONE_SHOT_COST = 20
+CAMPAIGN_COST = 10
