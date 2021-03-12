@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.contrib import messages
 from blog.models import BlogPost
 from .forms import SubscriptionForm
@@ -17,8 +17,8 @@ def index(request):
             subscription_form.save()
             messages.success(request, "You have subscribed to our newsletter!")
         else:
-            reverse('home')
             messages.error(request, "That is not a valid email!")
+            return redirect(reverse('home'))
     else:
         subscription_form = SubscriptionForm()
 

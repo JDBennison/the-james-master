@@ -79,6 +79,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'the_james_master.context_processors.subscription_form',
             ],
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
+            ]
         },
     },
 ]
@@ -165,4 +169,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 INTRO_COST = 20
 ONE_SHOT_COST = 20
-CAMPAIGN_COST = 10
+CAMPAIGN_COST = 15

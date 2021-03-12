@@ -10,10 +10,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid services py-3">
+    <div class="overlay"></div>
+    <div class="container-fluid py-3">
         <div class="row text-center">
             <div class="col-12">
-                <h2 class="header-font bio-title">Services</h2>
+                <h2 class="header-font bio-title">Book Your Game</h2>
             </div>
         </div>
         <div class="row">
@@ -29,10 +30,13 @@
                                 <li>Pregenerated Characters</li>
                                 <li>4-5 hour session</li>
                                 <li>Up to 6 players</li>
-                                <li>£20 per player per session</li>
                                 <li>New players get dice to keep</li>
                             </ul>
                         </strong>
+                        <hr>
+                        <p class="fs-3 text-center">
+                            £{{ intro_cost }} Per Player
+                        </p>
                     </div>
                 </div>
             </div>
@@ -48,10 +52,13 @@
                                 <li>Pregenerated or custom characters</li>
                                 <li>4-5 hour session</li>
                                 <li>Up to 6 players</li>
-                                <li>£20 per player per session</li>
                                 <li>New players get dice to keep</li>
                             </ul>
                         </strong>
+                        <hr>
+                        <p class="fs-3 text-center">
+                            £{{ one_shot_cost }} Per Player
+                        </p>
                     </div>
                 </div>
             </div>
@@ -67,49 +74,118 @@
                                 <li>Custom Characters</li>
                                 <li>4-5 hour session (longer sessions available)</li>
                                 <li>Up to 6 players</li>
-                                <li>£15 per player per session</li>
                                 <li>New players get dice to keep</li>
                             </ul>
                         </strong>
+                        <hr>
+                        <p class="fs-3 text-center">
+                            £{{ campaign_cost }} Per Player
+                        </p>
+                        <small>You must book a minimum of six sessions</small>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container py-3">
         <div class="row">
-            <div class="col-12">
-                <form class="form" action="" method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <div class="form-group">
-                                <label for="name" class="form-label"><strong>Name: </strong></label>
-                                <input type="text" class="form-control" name="name" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="form-label"><strong>Email: </strong></label>
-                                <input type="email" class="form-control" name="email" id="email">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <div class="form-group">
-                                <label for="players" class="form-label"><strong>Players:</strong></label>
-                                <input type="number" class="form-control qty-input" name="players" value="2" min="2" max="6" id="players">
-                            </div>
-                            <div class="form-group">
-                                <label for="date" class="form-label"><strong>Date:</strong></label>
-                                <select name="date" id="date" class="form-control">
-                                    <option selected>Choose your session</option>
-                                    {% for date in available_dates %}
-                                        <option value="{{ date.id }}">{{ date.date }} at {{ date.time }}</option>
-                                    {% endfor %}
-                                </select>
-                                
-                            </div>
-                        </div>
+            <div class="col-12 col-lg-6 order-lg-last mb-5 card">
+                <p class="text-muted header-font">Order Summary</p>
+                <div class="row">
+                    
+                    <div class="col-7 offset-2">
+                        <p class="mb-1 mt-0 small text-muted">Item</p>
                     </div>
+                    <div class="col-3 text-right">
+                        <p class="mb-1 mt-0 small text-muted">Subtotal</p>
+                    </div>
+                </div>
+                
+                <hr class="my-0">
+                <div class="row text-black text-right">
+                    <div class="col-7 offset-2">
+                        <p class="my-0">Order Total:</p>
+                        <p class="my-0">Delivery:</p>
+                        <p class="my-0">Grand Total:</p>
+                    </div>
+                    <div class="col-3">
+                        <p class="my-0">${{ total | floatformat:2 }}</p>
+                        <p class="my-0">${{ delivery | floatformat:2 }}</p>
+                        <p class="my-0"><strong>${{ grand_total | floatformat:2 }}</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <p class="text-muted">Please fill out the form below to complete your order</p>
+                <form action="{% url 'checkout' %}" method="POST" id="payment-form">
+                    {% csrf_token %}
+                    <fieldset class="rounded px-3 mb-5">
+                        <legend class="fieldset-label small text-black px-2 w-auto">Details</legend>
+                        {{ order_form.full_name | as_crispy_field }}
+                        {{ order_form.email | as_crispy_field }}
+                    </fieldset>
+                    <fieldset class="rounded px-3 mb-5">
+                        <legend class="fieldset-label small text-black px-2 w-auto">Delivery</legend>
+                        {{ order_form.phone_number | as_crispy_field }}
+                        {{ order_form.street_address1 | as_crispy_field }}
+                        {{ order_form.street_address2 | as_crispy_field }}
+                        {{ order_form.town_or_city | as_crispy_field }}
+                        {{ order_form.county | as_crispy_field }}
+                        {{ order_form.postcode | as_crispy_field }}
+                        {{ order_form.country | as_crispy_field }}
+                        <div class="form-check form-check-inline float-right mr-0">
+							{% if user.is_authenticated %}
+								<label class="form-check-label" for="id-save-info">Save this delivery information to my profile</label>
+                                <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info" name="save-info" checked>
+							{% else %}
+								<label class="form-check-label" for="id-save-info">
+                                    <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
+                                    <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
+                                </label>
+							{% endif %}
+						</div>
+                    </fieldset>
+                    <fieldset class="px-3">
+                        <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+                        <!-- A Stripe card element will go here -->
+                        <div class="mb-3" id="card-element"></div>
+                        <!-- Used to display form errors -->
+                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                        <!-- Pass the client secret to the view so we can get the payment intent id -->
+                        <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                    </fieldset>
+
+                    <div class="submit-button text-right mt-5 mb-2">                    
+						<a href="{% url 'view_bag' %}" class="btn btn-outline-black rounded-0">
+							<span class="icon">
+								<i class="fas fa-chevron-left"></i>
+							</span>
+							<span class="font-weight-bold">Adjust Bag</span>
+						</a>
+						<button id="submit-button" class="btn btn-black rounded-0">
+							<span class="font-weight-bold">Complete Order</span>
+							<span class="icon">
+								<i class="fas fa-lock"></i>
+							</span>
+						</button>
+						<p class="small text-danger my-0">
+							<span class="icon">
+								<i class="fas fa-exclamation-circle"></i>
+							</span>
+							<span>Your card will be charged <strong>${{ grand_total|floatformat:2 }}</strong></span>
+						</p>
+					</div>
                 </form>
             </div>
         </div>
+    </div>
+    <div id="loading-overlay">
+        <h1 class="text-light logo-font loading-spinner">
+            <span class="icon">
+                <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+            </span>
+        </h1>
+        
     </div>
     
 {% endblock %}

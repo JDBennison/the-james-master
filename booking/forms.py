@@ -21,6 +21,9 @@ class OrderForm(forms.ModelForm):
             'phone_number': 'Phone Number',
             'players': 'Number of Players',
             'comment': 'Any comments or requests',
+            'date_booked': 'Time slots available',
+            'service': 'Type of game',
+            'location': 'Online or in person?'
             }
 
         self.fields['full_name'].widget.attrs['autofocus'] = True
