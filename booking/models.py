@@ -76,6 +76,6 @@ class Order(models.Model):
         else:
             self.cost = 0
 
-        if not self.order_numer:
+        if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
