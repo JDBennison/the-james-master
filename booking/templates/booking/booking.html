@@ -181,11 +181,11 @@
 							</span>
                         </button>
                         
-						<p class="fs-6 text-danger my-0">
+						<p id="cost_paragraph" class="fs-6 text-danger my-0 d-none">
 							<span class="icon">
 								<i class="fas fa-exclamation-circle"></i>
 							</span>
-							<span>Your card will be charged <strong>£{{ order_form.cost.value|floatformat:2 }}</strong></span>
+							<span>Your card will be charged <strong id="cost_warning"></strong></span>
                         </p>
                         
 					</div>
@@ -220,7 +220,10 @@
             $.post("{% url 'calculate_cost' %}", data).then(
             function(response) {
                 console.log(response)
-                $('#cost').val(response.data)
+                $('#cost_warning').text(function(response){
+                    return "£" + parseInt(response)
+                })
+                $('#cost_paragraph').removeClass('d-none')
             })
         })
     </script>
