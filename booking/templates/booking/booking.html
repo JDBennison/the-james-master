@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'booking/css/booking.css' %}">
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -108,14 +112,14 @@
                     </fieldset>
                     <fieldset class="rounded px-3 mb-5">
                         <legend class="fieldset-label fs-6 text-black px-2 w-auto">Order</legend>
-                        <select name="date" id="date" class="form-group form-control form-select" required>
-                            <option selected disabled hidden>Choose your session</option>
+                        <select name="date" id="date" class="form-group form-control form-select rounded-0" required>
+                            <option value="" selected disabled hidden>Choose your session</option>
                             {% for date in available_dates %}
                                 <option value="{{ date.id }}">{{ date.date }} at {{ date.time }}</option>
                             {% endfor %}
                         </select>
-                        <select name="service" id="service" class="form-group form-control form-select" required>
-                            <option selected disabled hidden>Choose your service</option>
+                        <select name="service" id="service" class="form-group form-control form-select rounded-0" required>
+                            <option value="" selected disabled hidden>Choose your service</option>
                             <option value="IN">Introduction to D&D</option>
                             <option value="OS">One-Shot Adventure</option>
                             <option value="OC">Ongoing Campaign</option>
@@ -126,9 +130,9 @@
                             </span>
                             <span>Until lockdown regulations change, all sessions will be online.</span>
                         </p>
-                        <select name="location" id="location" class="form-group form-control form-select" required>
-                            <option selected disabled hidden>Choose your location</option>
-                            <option value="IRL">In Real Life</option>
+                        <select name="location" id="location" class="form-group form-control form-select rounded-0" required>
+                            <option value="" selected disabled hidden>Choose your location</option>
+                            <option value="IRL" disabled>In Real Life</option>
                             <option value="ONL">Online</option>
                         </select>
                         {{ order_form.players | as_crispy_field }}
@@ -182,5 +186,19 @@
         </div>
     </div>
     
+    <div id="loading-overlay">
+        <h1 class="text-light logo-font loading-spinner">
+            <span class="icon">
+                <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+            </span>
+        </h1>
+    </div>
     
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ client_secret|json_script:"id_client_secret" }}
+    <script src="{% static 'booking/js/stripe_elements.js' %}"></script>
 {% endblock %}
