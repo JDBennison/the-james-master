@@ -5,7 +5,7 @@ from .forms import OrderForm
 # Create your views here.
 
 
-def view_booking(request):
+def booking(request):
     """ A view that renders the first stage of booking """
 
     available_dates = Booking.objects.filter(booked=False).order_by('date')
