@@ -7,7 +7,7 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = ('full_name', 'email', 'phone_number',
                   'date_booked', 'players',
-                  'service', 'location', 'comment',)
+                  'service', 'location', 'comment', 'cost')
 
     def __init__(self, *args, **kwargs):
         """
@@ -23,7 +23,8 @@ class OrderForm(forms.ModelForm):
             'comment': 'Any comments or requests',
             'date_booked': 'Time slots available',
             'service': 'Type of game',
-            'location': 'Online or in person?'
+            'location': 'Online or in person?',
+            'cost': 'Cost',
             }
 
         self.fields['full_name'].widget.attrs['autofocus'] = True
@@ -34,6 +35,6 @@ class OrderForm(forms.ModelForm):
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-style-input'
-            self.fields['service'].widget.attrs['class'] = 'form-select'
-            self.fields['location'].widget.attrs['class'] = 'form-select'
+            self.fields['players'].widget.attrs['max'] = 7
+            self.fields['players'].widget.attrs['min'] = 2
             self.fields[field].label = False

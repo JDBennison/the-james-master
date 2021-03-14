@@ -109,17 +109,28 @@
                         {{ order_form.full_name | as_crispy_field }}
                         {{ order_form.email | as_crispy_field }}
                         {{ order_form.phone_number | as_crispy_field }}
+                        <div class="form-check form-check-inline float-right mr-0">
+							{% if user.is_authenticated %}
+								<label class="form-check-label" for="id-save-info">Save this information to my profile</label>
+                                <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info" name="save-info" checked>
+							{% else %}
+								<label class="form-check-label" for="id-save-info">
+                                    <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
+                                    <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
+                                </label>
+							{% endif %}
+						</div>
                     </fieldset>
                     <fieldset class="rounded px-3 mb-5">
                         <legend class="fieldset-label fs-6 text-black px-2 w-auto">Order</legend>
                         <select name="date" id="date" class="form-group form-control form-select rounded-0" required>
-                            <option value="" selected disabled hidden>Choose your session</option>
+                            <option value="" selected disabled hidden>Choose your session *</option>
                             {% for date in available_dates %}
                                 <option value="{{ date.id }}">{{ date.date }} at {{ date.time }}</option>
                             {% endfor %}
                         </select>
                         <select name="service" id="service" class="form-group form-control form-select rounded-0" required>
-                            <option value="" selected disabled hidden>Choose your service</option>
+                            <option value="" selected disabled hidden>Choose your service *</option>
                             <option value="IN">Introduction to D&D</option>
                             <option value="OS">One-Shot Adventure</option>
                             <option value="OC">Ongoing Campaign</option>
@@ -131,23 +142,20 @@
                             <span>Until lockdown regulations change, all sessions will be online.</span>
                         </p>
                         <select name="location" id="location" class="form-group form-control form-select rounded-0" required>
-                            <option value="" selected disabled hidden>Choose your location</option>
+                            <option value="" selected disabled hidden>Choose your location *</option>
                             <option value="IRL" disabled>In Real Life</option>
                             <option value="ONL">Online</option>
                         </select>
                         {{ order_form.players | as_crispy_field }}
                         {{ order_form.comment | as_crispy_field }}
-                        <div class="form-check form-check-inline float-right mr-0">
-							{% if user.is_authenticated %}
-								<label class="form-check-label" for="id-save-info">Save this delivery information to my profile</label>
-                                <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info" name="save-info" checked>
-							{% else %}
-								<label class="form-check-label" for="id-save-info">
-                                    <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
-                                    <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
-                                </label>
-							{% endif %}
-						</div>
+                        <input type="hidden" id="cost" name="cost" value="0">
+                        <button type="button" id="calculate_cost_button" class="btn btn-black rounded-0">
+							<span class="font-weight-bold">Calculate Cost</span>
+							<span class="icon">
+								<i class="fas fa-pound-sign"></i>
+							</span>
+                        </button>
+                        
                     </fieldset>
                     <fieldset class="px-3">
                         <legend class="fieldset-label fs-6 text-black px-2 w-auto">Payment</legend>
@@ -172,14 +180,14 @@
 								<i class="fas fa-lock"></i>
 							</span>
                         </button>
-                        {% if cost %}
-						<p class="small text-danger my-0">
+                        
+						<p class="fs-6 text-danger my-0">
 							<span class="icon">
 								<i class="fas fa-exclamation-circle"></i>
 							</span>
-							<span>Your card will be charged <strong>£{{ cost|floatformat:2 }}</strong></span>
+							<span>Your card will be charged <strong>£{{ order_form.cost.value|floatformat:2 }}</strong></span>
                         </p>
-                        {% endif %}
+                        
 					</div>
                 </form>
             </div>
@@ -201,4 +209,19 @@
     {{ stripe_public_key|json_script:"id_stripe_public_key" }}
     {{ client_secret|json_script:"id_client_secret" }}
     <script src="{% static 'booking/js/stripe_elements.js' %}"></script>
+    <script type="text/javascript">
+        $('#calculate_cost_button').click(function() {
+            let csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+            data = {
+                csrfmiddlewaretoken: csrfToken,
+                players: parseInt($("#id_players").val()),
+                service: $("#service").val(),
+            }
+            $.post("{% url 'calculate_cost' %}", data).then(
+            function(response) {
+                console.log(response)
+                $('#cost').val(response.data)
+            })
+        })
+    </script>
 {% endblock %}
