@@ -81,7 +81,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'the_james_master.context_processors.subscription_form',
-                'booking.context.booking_details',
             ],
             'builtins': [
                 'crispy_forms.templatetags.crispy_forms_tags',
