@@ -50,9 +50,14 @@ def checkout(request):
 def save_booking(request):
     players = int(request.POST.get('players', None))
     service = request.POST.get('service', None)
-    date = request.POST.get('date', None)
+    date_id = request.POST.get('date', None)
+    location = request.POST.get('location', None)
     checkout = request.session.get('checkout', {})
-    checkout[date] = players
+    checkout[date_id] = {
+        'players': players,
+        'service': service,
+        'location': location,
+        }
 
     request.session['checkout'] = checkout
     print(request.session['checkout'])
