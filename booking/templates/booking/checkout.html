@@ -25,10 +25,48 @@
         <div class="row">
             <div class="col-12 col-lg-6 mb-5 card">
                 {% if booking_date %}
-                    <p class="text-muted header-font">Order Summary</p>
+                    <hr>
+                    <h2 class="text-muted header-font mb-2">Order Summary</h2>
+                    <hr>
                     <div class="row">
-                        {{ booking_date }}
+                        <p>The date you have booked is <strong>{{ date.date }} at {{ date.time }}</strong> for <strong>{{ players }} Players</strong></p>
+                        {% if service == 'IN' %}
+                            {% include './includes/intro.html' %}
+                        {% elif service == 'OS' %}
+                            {% include './includes/one-shot.html' %}
+                        {% elif service == 'OC' %}
+                            {% include './includes/ongoing-campaign.html' %}
+                        {% endif %}
                     </div>
+                    <div class="row">
+                        {% if location == 'IRL' %}
+                            <p>
+                                The session will happen in person. The Dungeon Master will be in contact to arrange a location that works and is appropriate for all the players.
+                            </p>
+                            <hr>
+                        {% elif location == 'ONL' %}
+                            <p>The session will happen on a Zoom call using Roll20. You can create a free account for Roll20 here:</p>
+                            <a href="https://app.roll20.net/account/create/" target="_blank" class="link-dark text-center fs-3">
+                                <i class="fas fa-dice-d20 fa-lg"></i>
+                                <p>Roll20</p>
+                            </a>
+                            <hr>
+                        {% endif %}
+                        <div class="row mb-4">
+                            <div class="col-6 text-start my-auto">
+                                <a href="{% url 'booking' %}" class="btn btn-black rounded-0">
+                                    <span class="icon">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="font-weight-bold">Back To Booking</span>
+                                </a>
+                            </div>
+                            <div class="col-6 text-end">
+                                <span class="fs-1 text-center">Total Cost: £{{ cost }}</span>
+                            </div>
+                        </div>
+                    </div>
+
                 {% else %}
                     <p class="lead mb-5">You have not selected your game</p>
                     <a href="{% url 'booking' %}" class="btn btn-outline-black rounded-0">

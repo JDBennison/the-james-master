@@ -60,5 +60,4 @@ def save_booking(request):
         }
 
     request.session['checkout'] = checkout
-    print(request.session['checkout'])
     return redirect('checkout')

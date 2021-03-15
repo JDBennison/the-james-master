@@ -22,10 +22,9 @@ class Booking(models.Model):
     service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=True)
     players = models.IntegerField(null=True, blank=True)
     booked = models.BooleanField(default=False)
-    
 
     def __str__(self):
-        return 'Booking {} at {}'.format(self.date, self.time)
+        return '{} at {}'.format(self.date, self.time)
 
 class Order(models.Model):
     INTRO = 'IN'

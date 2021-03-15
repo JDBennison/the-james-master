@@ -24,6 +24,7 @@ def booking_details(request):
             booking_cost = booking_players * settings.CAMPAIGN_COST
         else:
             booking_cost = 0
+        booking_date.clear()
         booking_date.append({
             'booking': booking,
             'booking_service': booking_service,
@@ -37,6 +38,8 @@ def booking_details(request):
         'service': booking_service,
         'players': booking_players,
         'cost': booking_cost,
+        'location': booking_location,
+        'date': booking,
     }
 
     return context
