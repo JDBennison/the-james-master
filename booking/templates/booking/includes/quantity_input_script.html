@@ -1,0 +1,44 @@
+<script type="text/javascript">
+
+    // Disable +/- buttons outside 2-7 range
+    function handleEnableDisable(players) {
+        var currentValue = parseInt($(`#id_qty_players`).val());
+        var minusDisabled = currentValue < 3;
+        var plusDisabled = currentValue > 6;
+        $(`#decrement-qty_players`).prop('disabled', minusDisabled);
+        $(`#increment-qty_players`).prop('disabled', plusDisabled);
+    }
+
+    // Ensure proper enabling/disabling of all inputs on page load
+    var allQtyInputs = $('.qty_input');
+    for(var i = 0; i < allQtyInputs.length; i++){
+        var players = $(allQtyInputs[i]).data('players');
+        handleEnableDisable(players);
+    }
+
+    // Check enable/disable every time the input is changed
+    $('.qty_input').change(function() {
+        var players = $(this).data('players');
+        handleEnableDisable(players);
+    });
+
+    // Increment quantity
+    $('.increment-qty').click(function(e) {
+       e.preventDefault();
+       var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
+       var currentValue = parseInt($(closestInput).val());
+       $(closestInput).val(currentValue + 1);
+       var players = $(this).data('players');
+       handleEnableDisable(players);
+    });
+
+    // Decrement quantity
+    $('.decrement-qty').click(function(e) {
+       e.preventDefault();
+       var closestInput = $(this).closest('.input-group').find('.qty_input')[0];
+       var currentValue = parseInt($(closestInput).val());
+       $(closestInput).val(currentValue - 1);
+       var players = $(this).data('players');
+       handleEnableDisable(players);
+    });
+</script>

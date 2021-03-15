@@ -139,10 +139,34 @@
                             <option value="IRL" disabled>In Real Life</option>
                             <option value="ONL">Online</option>
                         </select>
-                        {{ order_form.players | as_crispy_field }}
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="my-auto me-3"><strong>Players:</strong></span>
+                                    <div class="input-group-prepend">
+                                        <button class="decrement-qty btn btn-black rounded-0" 
+                                            data-item_id="players" id="decrement-qty_players">
+                                            <span class="icon">
+                                                <i class="fas fa-minus"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <input class="form-control qty_input text-center" type="number"
+                                        name="players" value="2" min="2" max="7"
+                                        data-item_id="players"
+                                        id="id_qty_players">
+                                    <div class="input-group-append">
+                                        <button class="increment-qty btn btn-black rounded-0"
+                                            data-item_id="players" id="increment-qty_players">
+                                            <span class="icon">
+                                                <i class="fas fa-plus"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {{ order_form.comment | as_crispy_field }}
-                        <input type="hidden" id="cost" name="cost" value="0">
-                        
                     </fieldset>
 
                     <div class="submit-button text-right mt-5 mb-2">                    
@@ -172,4 +196,9 @@
         </h1>
     </div>
     
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+{% include './includes/quantity_input_script.html' %}
 {% endblock %}
