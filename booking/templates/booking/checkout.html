@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'booking/css/booking.css' %}">
+{% endblock %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container-fluid py-3">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="header-font bio-title">Checkout</h2>
+            </div>
+        </div>
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-12 mb-5 card">
+                {% if bag_item %}
+                    <p class="text-muted header-font">Order Summary</p>
+                    <div class="row">
+                    </div>
+                {% else %}
+                    <p class="lead mb-5">You have not selected your game</p>
+                    <a href="{% url 'booking' %}" class="btn btn-outline-black rounded-0">
+                        <span class="icon">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                        <span class="font-weight-bold">Back To Booking</span>
+                    </a>
+                {% endif %}
+                <hr class="my-0">
+            </div>
+            <div class="col-12 col-lg-6">
+                <p class="text-muted">Please fill out the form below to complete your order</p>
+                <form action="{% url 'booking' %}" method="POST" id="payment-form">
+                    {% csrf_token %}
+                    <fieldset class="px-3">
+                        <legend class="fieldset-label fs-6 text-black px-2 w-auto">Payment</legend>
+                        <!-- A Stripe card element will go here -->
+                        <div class="mb-3" id="card-element"></div>
+                        <!-- Used to display form errors -->
+                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                        <!-- Pass the client secret to the view so we can get the payment intent id -->
+                        <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                    </fieldset>
+
+                    <div class="submit-button text-right mt-5 mb-2">                    
+						<a href="{% url 'home' %}" class="btn btn-outline-black rounded-0">
+							<span class="icon">
+								<i class="fas fa-chevron-left"></i>
+							</span>
+							<span class="font-weight-bold">Cancel</span>
+						</a>
+						<button id="submit-button" class="btn btn-black rounded-0">
+							<span class="font-weight-bold">Complete Order</span>
+							<span class="icon">
+								<i class="fas fa-lock"></i>
+							</span>
+                        </button>
+                        
+						<p id="cost_paragraph" class="fs-6 text-danger my-0 d-none">
+							<span class="icon">
+								<i class="fas fa-exclamation-circle"></i>
+							</span>
+							<span>Your card will be charged <strong id="cost_warning"></strong></span>
+                        </p>
+                        
+					</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loading-overlay">
+        <h1 class="text-light logo-font loading-spinner">
+            <span class="icon">
+                <i class="fas fa-3x fa-sync-alt fa-spin"></i>
+            </span>
+        </h1>
+    </div>
+    
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ client_secret|json_script:"id_client_secret" }}
+    <script src="{% static 'booking/js/stripe_elements.js' %}"></script>
+    
+{% endblock %}

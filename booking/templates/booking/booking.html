@@ -93,16 +93,9 @@
     </div>
     <div class="container py-3">
         <div class="row">
-            <div class="col-12 col-lg-6 order-lg-last mb-5 card">
-                <p class="text-muted header-font">Order Summary</p>
-                <div class="row">
-                    
-                </div>
-                <hr class="my-0">
-            </div>
-            <div class="col-12 col-lg-6">
-                <p class="text-muted">Please fill out the form below to complete your order</p>
-                <form action="{% url 'booking' %}" method="POST" id="payment-form">
+            <div class="col-12 col-lg-6 offset-lg-3">
+                <p class="text-muted">Please fill out the form below to start your order</p>
+                <form action="{% url 'save_booking' %}" method="POST" id="payment-form">
                     {% csrf_token %}
                     <fieldset class="rounded px-3 mb-5">
                         <legend class="fieldset-label fs-6 text-black px-2 w-auto">Details</legend>
@@ -149,22 +142,7 @@
                         {{ order_form.players | as_crispy_field }}
                         {{ order_form.comment | as_crispy_field }}
                         <input type="hidden" id="cost" name="cost" value="0">
-                        <button type="button" id="calculate_cost_button" class="btn btn-black rounded-0">
-							<span class="font-weight-bold">Calculate Cost</span>
-							<span class="icon">
-								<i class="fas fa-pound-sign"></i>
-							</span>
-                        </button>
                         
-                    </fieldset>
-                    <fieldset class="px-3">
-                        <legend class="fieldset-label fs-6 text-black px-2 w-auto">Payment</legend>
-                        <!-- A Stripe card element will go here -->
-                        <div class="mb-3" id="card-element"></div>
-                        <!-- Used to display form errors -->
-                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                        <!-- Pass the client secret to the view so we can get the payment intent id -->
-                        <input type="hidden" value="{{ client_secret }}" name="client_secret">
                     </fieldset>
 
                     <div class="submit-button text-right mt-5 mb-2">                    
@@ -175,19 +153,11 @@
 							<span class="font-weight-bold">Cancel</span>
 						</a>
 						<button id="submit-button" class="btn btn-black rounded-0">
-							<span class="font-weight-bold">Complete Order</span>
+							<span class="font-weight-bold">Go To Checkout</span>
 							<span class="icon">
 								<i class="fas fa-lock"></i>
 							</span>
                         </button>
-                        
-						<p id="cost_paragraph" class="fs-6 text-danger my-0 d-none">
-							<span class="icon">
-								<i class="fas fa-exclamation-circle"></i>
-							</span>
-							<span>Your card will be charged <strong id="cost_warning"></strong></span>
-                        </p>
-                        
 					</div>
                 </form>
             </div>
@@ -202,29 +172,4 @@
         </h1>
     </div>
     
-{% endblock %}
-
-{% block postloadjs %}
-    {{ block.super }}
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static 'booking/js/stripe_elements.js' %}"></script>
-    <script type="text/javascript">
-        $('#calculate_cost_button').click(function() {
-            let csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-            data = {
-                csrfmiddlewaretoken: csrfToken,
-                players: parseInt($("#id_players").val()),
-                service: $("#service").val(),
-            }
-            $.post("{% url 'calculate_cost' %}", data).then(
-            function(response) {
-                console.log(response)
-                $('#cost_warning').text(function(response){
-                    return "£" + parseInt(response)
-                })
-                $('#cost_paragraph').removeClass('d-none')
-            })
-        })
-    </script>
 {% endblock %}
