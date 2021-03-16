@@ -46,12 +46,12 @@ class Order(models.Model):
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)
-    date_booked = models.DateField(auto_now=False, null=True, blank=True)
+    date_booked = models.ForeignKey('Booking', on_delete=models.CASCADE, null=True, blank=False)
     booked_on = models.DateTimeField(auto_now_add=True)
     players = models.IntegerField(null=True, blank=False)
-    service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=True)
+    service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=False)
     location = models.CharField(max_length=3, choices=LOCATION, null=True, blank=False, default='ONL')
-    comment = models.EmailField(max_length=254, null=False, blank=True)
+    comment = models.TextField(null=False, blank=True)
     cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
 
     def _generate_order_number(self):

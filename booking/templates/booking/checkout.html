@@ -62,7 +62,7 @@
                                 </a>
                             </div>
                             <div class="col-6 text-end">
-                                <span class="fs-1 text-center">Total Cost: £{{ cost }}</span>
+                                <span class="fs-3 text-center">Total Cost: £{{ cost }}</span>
                             </div>
                         </div>
                     </div>
@@ -82,6 +82,14 @@
                 <p class="text-muted">Please fill out the form below to complete your order</p>
                 <form action="{% url 'checkout' %}" method="POST" id="payment-form">
                     {% csrf_token %}
+                    <input type="hidden" id="full_name" value="{{ full_name }}">
+                    <input type="hidden" id="email" value="{{ email }}">
+                    <input type="hidden" id="phone_number" value="{{ phone_number }}">
+                    <input type="hidden" id="date_id" value="{{ date_id }}">
+                    <input type="hidden" id="service" value="{{ service }}">
+                    <input type="hidden" id="location" value="{{ location }}">
+                    <input type="hidden" id="players" value="{{ players }}">
+                    <input type="hidden" id="comment" value="{{ comment }}">
                     <fieldset class="px-3">
                         <legend class="fieldset-label fs-6 text-black px-2 w-auto">Payment</legend>
                         <!-- A Stripe card element will go here -->
@@ -105,7 +113,7 @@
 							</span>
 							<span class="font-weight-bold">Cancel</span>
 						</a>
-						<button id="submit-button" class="btn btn-black rounded-0">
+						<button name="stripe-submit" id="submit-button" class="btn btn-black rounded-0" value="stripe-submit">
 							<span class="font-weight-bold">Complete Order</span>
 							<span class="icon">
 								<i class="fas fa-lock"></i>
