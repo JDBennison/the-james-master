@@ -32,32 +32,39 @@ def checkout(request):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     if request.method == 'POST':
-        if 'stripe-submit' == request.POST.get('submit-button', None):
+        if 'stripe-submit' in request.POST:
+            full_name = request.POST['full_name']
+            email = request.POST['email']
+            phone_number = request.POST['phone_number']
+            comment = request.POST['comment']
+            players = int(request.POST['players'])
+            service = request.POST['service']
+            date_id = request.POST['date_id']
+            location = request.POST['location']
             form_data = {
-                'full_name': request.POST.get('full_name', None),
-                'email': request.POST.get('email', None),
-                'phone_number': request.POST.get('phone_number', None),
-                'players': int(request.POST.get('players', None)),
-                'service': request.POST.get('service', None),
-                # 'date': request.POST.get('date', None),
-                'location': request.POST.get('location', None),
-                'comment': request.POST.get('comment', None),
+                'full_name': full_name,
+                'email': email,
+                'phone_number': phone_number,
+                'players': players,
+                'service': service,
+                'date_id': date_id,
+                'location': location,
+                'comment': comment,
             }
             order_form = OrderForm(form_data)
-            date_id = request.POST.get('date_id', None)
             if order_form.is_valid():
                 order = order_form.save()
-                booking_date = Booking.objects.get(id=date_id)
+                booking_date = get_object_or_404(Booking, pk=date_id)
                 if booking_date.booked is False:
                     new_booking = Booking(
-                        service=request.POST.get('service', None),
-                        players=int(request.POST.get('players', None)),
+                        service=request.POST['service'],
+                        players=int(request.POST['players']),
                         booked=True,
                     )
                     new_booking.save()
                 elif booking_date.booked is True:
                     messages.error(request, (
-                        "I'm afraid that date has been booked. Please try a different date!")
+                        "I'm afraid that date has been booked. Please try a different date.")
                     )
                     order.delete()
                     return redirect(reverse('booking'))
@@ -66,15 +73,15 @@ def checkout(request):
             else:
                 messages.error(request, 'There was an error with your form. Please double check your information.')
         elif 'booking-submit' in request.POST:
-            full_name = request.POST.get('id_full_name', None)
-            email = request.POST.get('id_email', None)
-            phone_number = request.POST.get('id_phone_number', None)
-            comment = request.POST.get('id_comment', None)
-            players = int(request.POST.get('players', None))
-            service = request.POST.get('service', None)
-            date_id = request.POST.get('date', None)
+            full_name = request.POST['full_name']
+            email = request.POST['email']
+            phone_number = request.POST['phone_number']
+            comment = request.POST['comment']
+            players = int(request.POST['players'])
+            service = request.POST['service']
+            date_id = request.POST['date']
             date = get_object_or_404(Booking, pk=date_id)
-            location = request.POST.get('location', None)
+            location = request.POST['location']
             if service == 'IN':
                 cost = players * settings.INTRO_COST
             elif service == 'OS':
@@ -106,25 +113,11 @@ def checkout(request):
                 'date_id': date_id
             }
 
-        if not stripe_public_key:
-            messages.warning(request, 'Stripe public key is missing. \
-                Did you forget to set it in your environment?')
+            if not stripe_public_key:
+                messages.warning(request, 'Stripe public key is missing. \
+                    Did you forget to set it in your environment?')
 
-        context = {
-            'stripe_public_key': stripe_public_key,
-            'client_secret': intent.client_secret,
-            'players': players,
-            'service': service,
-            'location': location,
-            'date': date,
-            'cost': cost,
-            'full_name': full_name,
-            'email': email,
-            'phone_number': phone_number,
-            'comment': comment,
-        }
-
-        return render(request, 'booking/checkout.html', context)
+            return render(request, 'booking/checkout.html', context)
 
 
 def checkout_success(request, order_number):

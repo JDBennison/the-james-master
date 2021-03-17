@@ -7,25 +7,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class Booking(models.Model):
-    INTRO = 'IN'
-    ONE_SHOT = 'OS'
-    CAMPAIGN = 'OC'
-    SERVICE = [
-        (INTRO, 'Introduction To DnD'),
-        (ONE_SHOT, 'One Shot Adventure'),
-        (CAMPAIGN, 'Ongoing Campaign')
-    ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    time = models.TimeField(auto_now=False, null=True, blank=True)
-    date = models.DateField(auto_now=False, null=True, blank=True)
-    service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=True)
-    players = models.IntegerField(null=True, blank=True)
-    booked = models.BooleanField(default=False)
-
-    def __str__(self):
-        return '{} at {}'.format(self.date, self.time)
-
 class Order(models.Model):
     INTRO = 'IN'
     ONE_SHOT = 'OS'
@@ -55,8 +36,8 @@ class Order(models.Model):
     cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
 
     def _generate_order_number(self):
-        """ 
-        Generate a randome unique order number using UUID 
+        """
+        Generate a random unique order number using UUID
         """
         return uuid.uuid4().hex.upper()
 
@@ -65,15 +46,26 @@ class Order(models.Model):
         Override the original save method to set the order number
         if it hasn't been set already and update the cost
         """
-        if self.service == 'IN':
-            self.cost = self.players * settings.INTRO_COST
-        elif self.service == 'OS':
-            self.cost = self.players * settings.ONE_SHOT_COST
-        elif self.service == 'OC':
-            self.cost = self.players * settings.CAMPAIGN_COST
-        else:
-            self.cost = 0
-
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
+
+
+class Booking(models.Model):
+    INTRO = 'IN'
+    ONE_SHOT = 'OS'
+    CAMPAIGN = 'OC'
+    SERVICE = [
+        (INTRO, 'Introduction To DnD'),
+        (ONE_SHOT, 'One Shot Adventure'),
+        (CAMPAIGN, 'Ongoing Campaign')
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    time = models.TimeField(auto_now=False, null=True, blank=True)
+    date = models.DateField(auto_now=False, null=True, blank=True)
+    service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=True)
+    players = models.IntegerField(null=True, blank=True)
+    booked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '{} at {}'.format(self.date, self.time)

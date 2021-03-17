@@ -82,14 +82,15 @@
                 <p class="text-muted">Please fill out the form below to complete your order</p>
                 <form action="{% url 'checkout' %}" method="POST" id="payment-form">
                     {% csrf_token %}
-                    <input type="hidden" id="full_name" value="{{ full_name }}">
-                    <input type="hidden" id="email" value="{{ email }}">
-                    <input type="hidden" id="phone_number" value="{{ phone_number }}">
-                    <input type="hidden" id="date_id" value="{{ date_id }}">
-                    <input type="hidden" id="service" value="{{ service }}">
-                    <input type="hidden" id="location" value="{{ location }}">
-                    <input type="hidden" id="players" value="{{ players }}">
-                    <input type="hidden" id="comment" value="{{ comment }}">
+                    <input type="hidden" name="full_name" id="full_name" value="{{ full_name }}">
+                    <input type="hidden" name="email" id="email" value="{{ email }}">
+                    <input type="hidden" name="phone_number" id="phone_number" value="{{ phone_number }}">
+                    <input type="hidden" name="date_id" id="date_id" value="{{ date_id }}">
+                    <input type="hidden" name="service" id="service" value="{{ service }}">
+                    <input type="hidden" name="location" id="location" value="{{ location }}">
+                    <input type="hidden" name="players" id="players" value="{{ players }}">
+                    <input type="hidden" name="comment" id="comment" value="{{ comment }}">
+                    <input type="hidden" name="stripe-submit" id="stripe-submit" value="stripe-submit">
                     <fieldset class="px-3">
                         <legend class="fieldset-label fs-6 text-black px-2 w-auto">Payment</legend>
                         <!-- A Stripe card element will go here -->
@@ -98,6 +99,7 @@
                         <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                         <!-- Pass the client secret to the view so we can get the payment intent id -->
                         <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                        
                     </fieldset>
 
                     <div class="submit-button text-end mt-5 mb-2">
@@ -113,7 +115,7 @@
 							</span>
 							<span class="font-weight-bold">Cancel</span>
 						</a>
-						<button name="stripe-submit" id="submit-button" class="btn btn-black rounded-0" value="stripe-submit">
+						<button name="submit-button" id="submit-button" class="btn btn-black rounded-0">
 							<span class="font-weight-bold">Complete Order</span>
 							<span class="icon">
 								<i class="fas fa-lock"></i>

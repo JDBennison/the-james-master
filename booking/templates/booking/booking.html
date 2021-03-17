@@ -167,6 +167,7 @@
                             </div>
                         </div>
                         {{ order_form.comment | as_crispy_field }}
+                        <input type="hidden" name="booking-submit" id="booking-submit" value="booking-submit">
                     </fieldset>
 
                     <div class="submit-button text-right mt-5 mb-2">                    
@@ -175,8 +176,8 @@
 								<i class="fas fa-chevron-left"></i>
 							</span>
 							<span class="font-weight-bold">Cancel</span>
-						</a>
-                        <button name="booking-submit" id="submit-button" class="btn btn-black rounded-0" value="booking-submit">
+                        </a>
+                        <button name="submit-button" id="submit-button" class="btn btn-black rounded-0">
 							<span class="font-weight-bold">Go To Checkout</span>
 							<span class="icon">
 								<i class="fas fa-lock"></i>
