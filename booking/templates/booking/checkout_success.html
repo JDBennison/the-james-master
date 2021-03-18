@@ -17,26 +17,56 @@
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-12 col-lg-6 mb-5 card">
+                <hr>
+                <h2 class="text-muted header-font mb-2">Order Summary</h2>
+                <hr>
+                <div class="row">
+                    <p>The date you have booked is <strong>{{ booking.date }}</strong> for <strong>{{ order.players }} Players</strong></p>
+                    {% if order.service == 'IN' %}
+                        {% include './includes/intro.html' %}
+                    {% elif order.service == 'OS' %}
+                        {% include './includes/one-shot.html' %}
+                    {% elif order.service == 'OC' %}
+                        {% include './includes/ongoing-campaign.html' %}
+                    {% endif %}
+                </div>
+                <div class="row">
+                    {% if order.location == 'IRL' %}
+                        <p>
+                            The session will happen in person. The Dungeon Master will be in contact to arrange a location that works and is appropriate for all the players.
+                        </p>
+                        <hr>
+                    {% elif order.location == 'ONL' %}
+                        <p>The session will happen on a Zoom call using Roll20. You can create a free account for Roll20 here:</p>
+                        <a href="https://app.roll20.net/account/create/" target="_blank" class="link-dark text-center fs-3">
+                            <i class="fas fa-dice-d20 fa-lg"></i>
+                            <p>Roll20</p>
+                        </a>
+                        <hr>
+                    {% endif %}
+                    <div class="row mb-4">
+                        <div class="col-12 text-end">
+                            <span class="fs-3 text-center">Total Cost: £{{ order.cost }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-0">
+            </div>
+            <div class="col-12 col-lg-6">
                 <hr>
                 <h2 class="header-font mb-4">Thank You</h2>
                 <hr>
-                <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
+                <p class="text-black">Your order has been successful. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
+                <div class="text-center">
+                    <a href="{% url 'blog' %}" class="btn btn-black rounded-0 my-2">
+                        <span class="icon mr-2">
+                            <i class="fas fa-blog"></i>
+                        </span>
+                        <span class="text-uppercase">Now check out our blog for inspiration!</span>
+                    </a>
+                </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-12 col-lg-7"></div>
-        </div>
-        <div class="row">
-			<div class="col-12 col-lg-7 text-right">
-				<a href="{% url 'blog' %}" class="btn btn-black rounded-0 my-2">
-					<span class="icon mr-2">
-						<i class="fas fa-blog"></i>
-					</span>
-					<span class="text-uppercase">Now check out our blog for inspiration!</span>
-				</a>
-			</div>
-		</div>
     </div>
 {% endblock %}

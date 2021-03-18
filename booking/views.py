@@ -41,15 +41,17 @@ def checkout(request):
             service = request.POST['service']
             date_id = request.POST['date_id']
             location = request.POST['location']
+            cost = request.POST['cost']
             form_data = {
                 'full_name': full_name,
                 'email': email,
                 'phone_number': phone_number,
                 'players': players,
                 'service': service,
-                'date_id': date_id,
+                'date_booked': date_id,
                 'location': location,
                 'comment': comment,
+                'cost': cost,
             }
             order_form = OrderForm(form_data)
             if order_form.is_valid():
@@ -57,21 +59,25 @@ def checkout(request):
                 booking_date = get_object_or_404(Booking, pk=date_id)
                 if booking_date.booked is False:
                     new_booking = Booking(
+                        id=date_id,
+                        date=booking_date.date,
+                        time=booking_date.time,
                         service=request.POST['service'],
                         players=int(request.POST['players']),
                         booked=True,
                     )
                     new_booking.save()
+                    request.session['save_info'] = 'save_info' in request.POST
+                    return redirect(reverse('checkout_success', args=[order.order_number]))
                 elif booking_date.booked is True:
                     messages.error(request, (
                         "I'm afraid that date has been booked. Please try a different date.")
                     )
                     order.delete()
                     return redirect(reverse('booking'))
-                request.session['save_info'] = 'save_info' in request.POST
-                return redirect(reverse('checkout_success', args=[order.order_number]))
             else:
                 messages.error(request, 'There was an error with your form. Please double check your information.')
+                return redirect(reverse('booking'))
         elif 'booking-submit' in request.POST:
             full_name = request.POST['full_name']
             email = request.POST['email']
