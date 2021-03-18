@@ -3,8 +3,27 @@ import uuid
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from profiles.models import UserProfile
 
-# Create your models here.
+
+class Booking(models.Model):
+    INTRO = 'IN'
+    ONE_SHOT = 'OS'
+    CAMPAIGN = 'OC'
+    SERVICE = [
+        (INTRO, 'Introduction To DnD'),
+        (ONE_SHOT, 'One Shot Adventure'),
+        (CAMPAIGN, 'Ongoing Campaign')
+    ]
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
+    time = models.TimeField(auto_now=False, null=True, blank=True)
+    date = models.DateField(auto_now=False, null=True, blank=True)
+    service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=True)
+    players = models.IntegerField(null=True, blank=True)
+    booked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '{} at {}'.format(self.date, self.time)
 
 
 class Order(models.Model):
@@ -24,10 +43,11 @@ class Order(models.Model):
     ]
     
     order_number = models.CharField(max_length=32, null=False, editable=False)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)
-    date_booked = models.ForeignKey('Booking', on_delete=models.CASCADE, null=True, blank=False)
+    date_booked = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True, blank=False)
     booked_on = models.DateTimeField(auto_now_add=True)
     players = models.IntegerField(null=True, blank=False)
     service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=False)
@@ -51,21 +71,3 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
 
-class Booking(models.Model):
-    INTRO = 'IN'
-    ONE_SHOT = 'OS'
-    CAMPAIGN = 'OC'
-    SERVICE = [
-        (INTRO, 'Introduction To DnD'),
-        (ONE_SHOT, 'One Shot Adventure'),
-        (CAMPAIGN, 'Ongoing Campaign')
-    ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    time = models.TimeField(auto_now=False, null=True, blank=True)
-    date = models.DateField(auto_now=False, null=True, blank=True)
-    service = models.CharField(max_length=2, choices=SERVICE, null=True, blank=True)
-    players = models.IntegerField(null=True, blank=True)
-    booked = models.BooleanField(default=False)
-
-    def __str__(self):
-        return '{} at {}'.format(self.date, self.time)

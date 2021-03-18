@@ -17,7 +17,6 @@ def cache_checkout_data(request):
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.PaymentIntent.modify(pid, metadata={
-            'save_info': request.POST.get('save_info'),
             'username': request.user,
         })
         return HttpResponse(status=200)
@@ -82,7 +81,6 @@ def checkout(request):
                         booked=True,
                     )
                     new_booking.save()
-                    request.session['save_info'] = 'save_info' in request.POST
                     return redirect(reverse('checkout_success', args=[order.order_number]))
                 elif booking_date.booked is True:
                     messages.error(request, (
@@ -102,7 +100,6 @@ def checkout(request):
             service = request.POST['service']
             date_id = request.POST['date']
             date = get_object_or_404(Booking, pk=date_id)
-            save_info = request.POST['save_info']
             location = request.POST['location']
             if service == 'IN':
                 cost = players * settings.INTRO_COST
@@ -133,7 +130,6 @@ def checkout(request):
                 'phone_number': phone_number,
                 'comment': comment,
                 'date_id': date_id,
-                'save_info': save_info,
             }
 
             if not stripe_public_key:
@@ -147,7 +143,6 @@ def checkout_success(request, order_number):
     """
     Handle successful checkouts
     """
-    save_info = request.session.get('save_info')
     order = get_object_or_404(Order, order_number=order_number)
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \

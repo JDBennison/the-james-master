@@ -6,7 +6,7 @@ from .models import Booking, Order
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('date', 'time', 'service', 'user', 'players', 'booked')
+    list_display = ('date', 'time', 'service', 'user_profile', 'players', 'booked')
     list_filter = ('date', 'booked')
 
 
