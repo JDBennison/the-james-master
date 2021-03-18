@@ -38,7 +38,7 @@
     <body>
         <header class="container-fluid fixed-top">
             <div id="topnav" class="row bg-white pt-lg-0 d-none d-lg-flex">
-                <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
+                <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-end text-lg-left">
                     <a href="{% url 'home' %}" class="nav-link main-logo-link">
                         <h2 class="logo-font text-black my-0">The James  <strong>Master</strong></h2>
                     </a>
@@ -54,10 +54,7 @@
                             </a>
                             <div class="dropdown-menu border-0" aria-labelledby="user-options">
                                 {% if request.user.is_authenticated %}
-                                    {% if request.user.is_superuser %}
-                                        <a href="" class="dropdown-item">Blog Management</a>
-                                    {% endif %}
-                                    <a href="" class="dropdown-item">My Profile</a>
+                                    <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
                                     <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
                                 {% else %}
                                     <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
