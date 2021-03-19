@@ -5,6 +5,8 @@ from django.conf import settings
 
 from .models import Booking, Order
 from .forms import OrderForm
+from profiles.models import UserProfile
+from profiles.forms import UserProfileForm
 
 import stripe
 
@@ -144,6 +146,22 @@ def checkout_success(request, order_number):
     Handle successful checkouts
     """
     order = get_object_or_404(Order, order_number=order_number)
+    booking = order.date_booked
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.get(user=request.user)
+        # Attach the user's profile to the order
+        order.user_profile = profile
+        booking.user_profile = profile
+        order.save()
+        booking.save()
+        profile_data = {
+            'full_name': order.full_name,
+            'default_phone_number': order.phone_number,
+        }
+        user_profile_form = UserProfileForm(profile_data, instance=profile)
+        if user_profile_form.is_valid():
+            user_profile_form.save()
+
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \
         email will be sent to {order.email}.')

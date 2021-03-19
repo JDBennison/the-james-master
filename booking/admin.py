@@ -13,9 +13,9 @@ class BookingAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('order_number', 'booked_on', 'cost',)
-    fields = ('order_number', 'date_booked', 'players', 'service',
-              'full_name', 'email', 'phone_number','comment',
-              'location', 'booked_on', 'cost',)
+    fields = ('order_number', 'user_profile', 'date_booked', 'players'
+              'service', 'full_name', 'email', 'phone_number',
+              'comment', 'location', 'booked_on', 'cost',)
     list_display = ('order_number', 'date_booked', 'players',
                     'service', 'full_name', 'comment',  'location',)
     ordering = ('-booked_on',)
