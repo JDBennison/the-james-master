@@ -1,0 +1,1 @@
+web: gunicorn the-james-master.wsgi:application

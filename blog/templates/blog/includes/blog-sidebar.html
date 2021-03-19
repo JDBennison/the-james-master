@@ -20,7 +20,7 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-4 thumbnail">
-                                    <img src="{{ post.image_url }}" alt="{{ post.image }}">
+                                    <img src="{{ post.image.url }}" alt="{{ post.image }}">
                                 </div>
                                 <div class="col-8">
                                     <a href="{% url 'post_detail' post.id  %}" class="card-title">{{ post.title }}</a>

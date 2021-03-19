@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('full_name', models.CharField(max_length=50)),
                 ('email', models.EmailField(max_length=254)),
                 ('phone_number', models.CharField(max_length=20)),
-                ('date_booked', models.DateField(blank=True, null=True)),
+                ('date_booked', models.IntegerField(blank=True, null=True)),
                 ('booked_on', models.DateTimeField(auto_now_add=True)),
                 ('players', models.IntegerField(null=True)),
                 ('service', models.CharField(blank=True, choices=[('IN', 'Introduction To DnD'), ('OS', 'One Shot Adventure'), ('OC', 'Ongoing Campaign')], max_length=2, null=True)),

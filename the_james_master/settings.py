@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import dj_database_url
 from pathlib import Path
 
 if os.path.exists('env.py'):
@@ -29,7 +30,7 @@ SECRET_KEY = '2zy0%%4sn0f55ok3r0ci7a(6(4+3=+t452dkk%=tk)bq-xfnzt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['the-james-master']
 
 
 # Application definition
@@ -119,13 +120,17 @@ WSGI_APPLICATION = 'the_james_master.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': dj_database_url.parse('postgres://pjmegzbakszwfw:91c05d33fa1cc32f28f75c605d44717c5d5cb216ddde0ff25d4290e530ab99f8@ec2-52-50-171-4.eu-west-1.compute.amazonaws.com:5432/ddn9ehr3okkid')
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
