@@ -1,0 +1,22 @@
+Hello {{ order.full_name }}
+
+This is to confirm that you have booked a professional Dungeon Master with The James Master. Your order information is below:
+
+Order Number: {{ order.order_number }}
+Order Date: {{ order.booked_on }}
+
+Service booked: {% if order.service == "IN" %}Introduction to D&D{% elif order.service == "OS" %}One-Shot Adventure{% elif order.service == "OC" %}Ongoing Campaign{% endif %}
+Date of Session: {{ booking.date }} at {{ booking.time }}
+Number of Players: {{ order.players }}
+Total Cost: {{ order.cost }}
+
+If you want to get a head start then you and your players should each create an account on Roll20.net as this is the system we will be using for that.
+
+{% if order.service == "OC" %}Remember, as you are playing an ongoing campaign, a minimum of six sessions need to be booked, otherwise you may need to pay a small surcharge.{% endif %}
+
+If you have any questions or would like to request any specific modules or adventure themes then feel free to contact me at {{ contact_email }}. Otherwise, I will be in touch up to a week before {{ booking.date }}
+
+Sincerely,
+
+James Bennison
+The James Master

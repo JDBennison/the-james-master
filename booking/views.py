@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.conf import settings
+
 
 from .models import Booking, Order
 from .forms import OrderForm
@@ -30,7 +33,18 @@ def cache_checkout_data(request):
 def booking(request):
     """ A view that renders the first stage of booking """
     available_dates = Booking.objects.filter(booked=False).order_by('date')
-    order_form = OrderForm()
+    if request.user.is_authenticated:
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+            order_form = OrderForm(initial={
+                'full_name': profile.full_name,
+                'email': profile.user.email,
+                'phone_number': profile.default_phone_number,
+            })
+        except UserProfile.DoesNotExist:
+            order_form = OrderForm()
+    else:
+        order_form = OrderForm()
 
     context = {
         'available_dates': available_dates,
@@ -141,6 +155,25 @@ def checkout(request):
             return render(request, 'booking/checkout.html', context)
 
 
+def _send_confirmation_email(order, booking):
+    """
+    Send the user a confirmation email
+    """
+    cust_email = order.email
+    subject = render_to_string(
+        'booking/confirmation_emails/confirmation_email_subject.txt',
+        {'order': order})
+    body = render_to_string(
+        'booking/confirmation_emails/confirmation_email_body.txt',
+        {'order': order, 'booking': booking, 'contact_email': settings.DEFAULT_FROM_EMAIL})
+    send_mail(
+        subject,
+        body,
+        settings.DEFAULT_FROM_EMAIL,
+        [cust_email]
+    )
+
+
 def checkout_success(request, order_number):
     """
     Handle successful checkouts
@@ -165,6 +198,7 @@ def checkout_success(request, order_number):
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. A confirmation \
         email will be sent to {order.email}.')
+    _send_confirmation_email(order, booking)
 
     template = 'booking/checkout_success.html'
     context = {
@@ -172,3 +206,4 @@ def checkout_success(request, order_number):
     }
 
     return render(request, template, context)
+
