@@ -1,1 +1,1 @@
-web: gunicorn the-james-master.wsgi:application
+web: gunicorn the_james_master.wsgi:application
