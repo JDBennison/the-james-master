@@ -59,7 +59,7 @@
             <div class="col-xs-12 col-md-8 my-auto">
                 <h2 class="header-font bio-title text-white">Meet the James Master</h2>
                 <div class="d-md-none p-5">
-                    <img src="../../media/james.jpg" class="rounded-circle img-fluid" alt="James">
+                    <img src="{{ MEDIA_URL }}/james.jpg" class="rounded-circle img-fluid" alt="James">
                 </div>
                 <p class="text-white">My name is James! I've played Dungeons and Dragons since I was 11 years old and have played it avidly since, as well as a huge amount of other table top roleplaying games too.</p>
                 <p class="text-white">I have been a maths teacher and a stand up comedian, as well as a childrens performer and have introduced countless people to the world of roleplaying.</p>
@@ -144,7 +144,7 @@
             {% for post in blog_posts %}
                 <div class="col-md-12 col-lg-4">
                     <div class="card mb-4">
-                        <img src="{{ post.image_url }}" alt="{{ post.image }}" class="card-img-top">
+                        <img src="{{ post.image.url }}" alt="{{ post.image }}" class="card-img-top">
                         <div class="card-body">
                             <h2 class="card-title header-font">{{ post.title }}</h2>
                             <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
@@ -160,7 +160,7 @@
     <div class="container-fluid contact-form pb-4">
         <div class="row py-3">
             <div class="col-12 my-auto text-center">
-                <h2 class="header-font bio-title text-white">Contact Us</h2>
+                <h2 class="header-font bio-title text-black">Contact Us</h2>
             </div>
         </div>
         <div class="row">
