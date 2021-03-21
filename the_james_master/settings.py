@@ -127,14 +127,14 @@ WSGI_APPLICATION = 'the_james_master.wsgi.application'
 
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.parse('postgres://pjmegzbakszwfw:91c05d33fa1cc32f28f75c605d44717c5d5cb216ddde0ff25d4290e530ab99f8@ec2-52-50-171-4.eu-west-1.compute.amazonaws.com:5432/ddn9ehr3okkid')
     }
 
 # Password validation
