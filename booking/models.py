@@ -1,8 +1,7 @@
 import uuid
 
 from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import User
+
 from profiles.models import UserProfile
 
 
@@ -41,7 +40,7 @@ class Order(models.Model):
         (IN_REAL_LIFE, 'In Real Life'),
         (ONLINE, 'Online'),
     ]
-    
+
     order_number = models.CharField(max_length=32, null=False, editable=False)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     full_name = models.CharField(max_length=50, null=False, blank=False)
@@ -54,6 +53,9 @@ class Order(models.Model):
     location = models.CharField(max_length=3, choices=LOCATION, null=True, blank=False, default='ONL')
     comment = models.TextField(null=False, blank=True)
     cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
+
+    def __str__(self):
+        return self.order_number
 
     def _generate_order_number(self):
         """
@@ -69,5 +71,3 @@ class Order(models.Model):
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
-
-

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import BlogPost, Comment
 
-# Register your models here.
 
 @admin.register(BlogPost)
 class PostAdmin(admin.ModelAdmin):
@@ -20,4 +19,3 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, request, queryset):
         queryset.update(active=True)
-

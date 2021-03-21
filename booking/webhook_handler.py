@@ -1,10 +1,9 @@
 from django.http import HttpResponse
 
-from .models import Order, Booking
-# from profiles.models import UserProfile
+from .models import Order
 
-import json
 import time
+
 
 class StripeWH_Handler:
     """Handle Stripe Webhooks"""
