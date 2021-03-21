@@ -156,5 +156,22 @@
             {% endfor %}
         </div>
     </div>
+    <div class="container-fluid contact-form pb-4">
+        <div class="row py-3">
+            <div class="col-12 my-auto text-center">
+                <h2 class="header-font bio-title text-white">Contact Us</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6 offset-lg-1">
+                <form method="POST" action="{% url 'home' %}">
+                    {{ contact_form | crispy }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-black border border-black rounded-0 header-font">Send Email</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     
 {% endblock %}

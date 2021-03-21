@@ -11,7 +11,8 @@ def index(request):
     """ A view to return the index page """
 
     blog_posts = BlogPost.objects.filter(status=1).order_by('-created_on')[:3]
-
+    subscription_form = SubscriptionForm()
+    contact_form = ContactForm()
     if request.method == 'POST':
         if 'subscribe_email' in request.POST:
             subscription_form = SubscriptionForm(request.POST)
@@ -21,7 +22,7 @@ def index(request):
             else:
                 messages.error(request, "That is not a valid email!")
                 return redirect(reverse('home'))
-        if 'message' in request.POST:
+        elif 'message' in request.POST:
             contact_form = ContactForm(request.POST)
             if contact_form.is_valid():
                 subject = contact_form.cleaned_data['subject']
@@ -29,14 +30,10 @@ def index(request):
                 message = contact_form.cleaned_data['message']
                 try:
                     send_mail(subject, message, from_email, ['jamesbennison88@gmail.com'])
+                    messages.success(request, "Thank you for your message. We will be in touch very soon!")
                 except BadHeaderError:
                     messages.error(request, "Invalid header found!")
                     return redirect(reverse('home'))
-                messages.success(request, "Thank you for your message. We will be in touch very soon!")
-    else:
-        subscription_form = SubscriptionForm()
-        contact_form = ContactForm()
-
     context = {
         'blog_posts': blog_posts,
         'subscription_form': subscription_form,

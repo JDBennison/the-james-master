@@ -86,7 +86,8 @@ body {
     font-size: 20px;
 }
 
-.bio {
+.bio,
+.contact-form {
     background-color: #363636;
 }
 
