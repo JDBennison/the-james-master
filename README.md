@@ -51,6 +51,8 @@ As opposed to going into the admin site, I would like to build a page for superu
 In future blogs it may be prudent to be able to add pictures throughout the blog to make it more eye catching for the user.
 * User notes
 As a backend function I would like to be able to put notes on each users profile regarding characters and games they have played so that if other dungeon masters are going to run for them, they can read up on what they have experienced so far. Also a facility to be able to upload files, such as character sheets, so that they are easily accessible for all super users.
+* Email notifications
+When someone books a session or leaves a comment on the blog I would like to have email notifications to all superusers so that they can follow up and action them accordingly.
 
 ## Technologies Used
 For the basics of front end I mostly used HTML5, CSS3 and Javascript and back end I used Python and Django along with the following libraries and frameworks
@@ -76,17 +78,70 @@ For the basics of front end I mostly used HTML5, CSS3 and Javascript and back en
 	* For the blog input, it stores the text as html to allow easy formatting.
 
 ## Testing
-In this section, you need to convince the assessor that you have conducted enough testing to legitimately believe that the site works well. Essentially, in this part you will want to go over all of your user stories from the UX section and ensure that they all work as intended, with the project providing an easy and straightforward way for the users to achieve their goals.
-Whenever it is feasible, prefer to automate your tests, and if you've done so, provide a brief explanation of your approach, link to the test file(s) and explain how to run them.
-For any scenarios that have not been automated, test the user stories manually and provide as much detail as is relevant. A particularly useful form for describing your testing process is via scenarios, such as:
-	1.	Contact form:
-	i.	Go to the "Contact Us" page
-	ii.	Try to submit the empty form and verify that an error message about the required fields appears
-	iii.	Try to submit the form with an invalid email address and verify that a relevant error message appears
-	iv.	Try to submit the form with all inputs valid and verify that a success message appears.
-In addition, you should mention in this section how your project looks and works on different browsers and screen sizes.
-You should also mention in this section any interesting bugs or problems you discovered during your testing, even if you haven't addressed them yet.
-If this section grows too long, you may want to split it off into a separate file and link to it from here.
+The appropriate validators have been used with no warnings for HTML, CSS, Javascript and Python. Manual testing was used extensively with there being no dead links.
+With the various forms the testing went as follows
+1. Contact Form
+	i. An empty form will not submit
+	ii. Emails that aren't the correct format will not submit
+	iii. Empty fields that are not required will not submit
+	iv. When submission occurs with valid input fields, the form is sent and a success message appears.
+2. Subscribe Form
+	i. An empty form will not submit
+	ii. Emails that aren't the correct format will not submit
+	iii. When submission occurs with valid input fields, the form is sent and a success message appears.
+3. Blog Comments
+	i. An empty form will not submit
+	ii. Emails that aren't the correct format will not submit
+	iii. Empty fields that are not required will not submit
+	iv. When submission occurs with valid input fields, the form is sent and a success message appears.
+4. Booking Form
+	i. An empty form will not submit
+	ii. Emails that aren't the correct format will not submit
+	iii. Empty fields that are not required will not submit
+	iv. Form will submit with empty comment section (the only non required field)
+	v. When details are saved from profile, they are carried through as long as the user is logged in.
+	vi. When submission occurs with valid input fields, the form is sent and it carries through the information to the checkout page.
+5. Checkout Form
+	i. Wont submit without valid card details.
+	ii. Error messages are displayed correctly below the stripe input.
+	iii. Loading overlay is properly displayed whilst loading.
+	iv. Confirmation message is displayed when valid card details are submitted.
+
+Different screen sizes automatically resize the content with no problems. The only problem is with iOS safari browsers which don't display the fixed background properly. This isn't a huge problem however as it is still readable and stylistically doesn't distract from the aesthetic of the app.
+
+In regards to the user stories
+### Home Page
+1. All services are displayed on the home page and on the booking page and clicking on the navbar "services" link takes you straight to correct location.
+2. The contact form is on the home page and there is a functioning link in the footer to take you to that part of the site.
+3. There is a section on the home page regarding this and clicking on the navbar "Meet The DM" link takes you straight to correct location.
+4. The Navbar is available on all pages and takes you to every part of the site, meaning that the user should never need to use the back button.
+5. The blog links work and a small preview of the blog is displayed on the main page.
+6. The link to the FAQ page is visible in the navbar on all pages.
+### Blog
+7. There is a variety of blog posts with more on the way.
+8. See above
+9. The search bar is visible on all blog pages and will let users search for keywords in the titles and the content of the blog itself.
+10. Each blog has a space to leave comments and superusers have control over moderating the comments before they are posted.
+11. Blog posts are easily addable through the admin page and have the option of saving it as a draft without it being posted to the page.
+12. Images are easily uploaded through the admin page however only one per blog.
+### Booking
+13. Availability is visible through the dropdown which automatically updates when one is booked or is deleted manually from the admin page by a superuser.
+14. Was no longer relevant by the time the app was complete. However a summary of the booking is displayed before a customer pays through stripe.
+15. Was no longer relevant by the time the app was complete. However there is a back button so customers do not have to commit to the booking before paying if they have click the wrong date or service by accident.
+16. Payment is available through stripe simply and easily.
+17. Emails are sent out with details when the booking is confirmed
+18. I use the Stripe service which is safe and secure.
+19. Basic details are save to the profile which are then automatically put into the booking form.
+20. Superusers can input the dates and times they are available on the admin site easily.
+21. All the bookings are stored on the admin side of things.
+### Profile
+22. Bookings are easily visible on the admin page with a link to the user and the comments they have left also.
+23. Contact details are easily updatable on the profile page.
+24. Signing up is simple with allauth and visible on all pages.
+25. Login and Log Out is also simple with allauth and visible on all pages.
+26. On the login page, it is simple to recover your password with allauth.
+27. There is an email verification system built in to allauth and personalised by me.
+28. The subscribe option is available on all pages in the footer and is very easy and quick to use.
 
 ## Deployment
 ### Heroku
@@ -150,3 +205,6 @@ Once done you can run Play Park Pubs by typing python3 manage.py runserver
 
 ### Media
 * The photos used in this site were obtained from pixabay.
+
+
+

@@ -199,6 +199,10 @@ def checkout_success(request, order_number):
         Your order number is {order_number}. A confirmation \
         email will be sent to {order.email}.')
     _send_confirmation_email(order, booking)
+    subject = 'A new booking has been made'
+    from_email = 'jamesbennison88@gmail.com'
+    message = 'A new booking has been made on The James Master'
+    send_mail(subject, message, from_email, ['jamesbennison88@gmail.com'])
 
     template = 'booking/checkout_success.html'
     context = {

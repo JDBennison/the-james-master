@@ -29,7 +29,7 @@ def index(request):
                 from_email = contact_form.cleaned_data['from_email']
                 message = contact_form.cleaned_data['message']
                 try:
-                    send_mail(subject, message, from_email, ['jamesbennison88@gmail.com'])
+                    send_mail(subject, message, from_email, ['jamesbennison88@gmail.com', from_email])
                     messages.success(request, "Thank you for your message. We will be in touch very soon!")
                 except BadHeaderError:
                     messages.error(request, "Invalid header found!")

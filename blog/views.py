@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.core.mail import send_mail
 from django.contrib import messages
 from django.db.models import Q
 from .models import BlogPost
@@ -49,6 +50,12 @@ def post_detail(request, blog_id):
             new_comment.post = blog_post
             # Save the comment to the database
             new_comment.save()
+            subject = 'A new comment has been posted'
+            from_email = 'jamesbennison88@gmail.com'
+            message = 'A comment has been posted on The James Master'
+            send_mail(subject, message, from_email, ['jamesbennison88@gmail.com'])
+            messages.info(request, "Your comment is awaiting moderation.")
+
     else:
         comment_form = CommentForm()
 
