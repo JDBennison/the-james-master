@@ -201,7 +201,7 @@ Once done you can run Play Park Pubs by typing python3 manage.py runserver
 
 ### Content
 * The text was written by James Bennison unless stated otherwise.
-* The blog post "Adventure Hooks" was inspired by a [Reddit Post](https://www.reddit.com/r/DnD/comments/9adid0/50_adventure_hooks_to_steal_for_your_game/) by /DreadTheBard
+* The blog post "Adventure Hooks" was inspired by a [Reddit Post](https://www.reddit.com/r/DnD/comments/9adid0/50_adventure_hooks_to_steal_for_your_game/) by /DreadTheBard.
 
 ### Media
 * The photos used in this site were obtained from pixabay.
